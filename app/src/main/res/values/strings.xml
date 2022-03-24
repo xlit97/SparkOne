@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Separated</string>
+    <string name="weather_in_mask">Погода {city}</string>
+    <string name="cloudy_weather">Облачная погода</string>
+    <string name="sunny_weather">Солнечная погода</string>
+    <string name="rain">Дождь</string>
+</resources>
