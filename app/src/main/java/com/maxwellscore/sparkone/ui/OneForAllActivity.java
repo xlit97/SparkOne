@@ -15,6 +15,9 @@ import com.maxwellscore.sparkone.data.network.WeatherApi;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Пример кода, когда практически вся логика сосредоточена в одном классе.
+ */
 public class OneForAllActivity extends AppCompatActivity {
 
     private final static String CITY_MASK = "{city}";

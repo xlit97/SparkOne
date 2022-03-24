@@ -13,6 +13,19 @@ import com.maxwellscore.sparkone.domain.entities.Weather;
 import com.maxwellscore.sparkone.domain.WeatherInteractor;
 import com.maxwellscore.sparkone.domain.entities.WeatherType;
 
+/**
+ * ViewModel - является представителем презентационного слоя.
+ * Он отвечает за обработку взаимодействий с интерфейсом(то есть интерфейс передает сюда команды),
+ * а viewModel в свою очередь идет в доменный слой за данными и когда она их получает,
+ * то viewModel передает подготовленные данные в UI слой (то есть UI слой ничего с данными не делает, только показывает их)
+ * Для передачи данных в UI слой используется паттерн Наблюдатель и его реализация в лице LiveData
+ * Главным плюсом LiveData является то, что вам не нужно париться касательно жизненного цикла активити или фрагмента
+ * ViewModel передает данные только через LiveData, методы типа onInitiallyCreated
+ *
+ *  По идее вы можете использовать модели доменного слоя [Weather.java] для UI слоя, но тогда в UI слое появится код
+ *  по преобразованию weatherType в текст и получается, что UI начнет включать в себя какую-то логику, чего стоит избегать
+ *  Хотя если данные доменного слоя подходят для мгновенного отображения без преобразований, то можно использовать модели Domain слоя в UI слое
+ */
 public class WeatherViewModel extends ViewModel {
 
     private static final String CITY_MASK = "{city}";
@@ -28,7 +41,7 @@ public class WeatherViewModel extends ViewModel {
      * Метод вызывается когда activity завершит подготовительные работы. Затем метод идет в интерактор за данными,
      * которые потом преобразуются в данные ui слоя, которые удобно устанавливать для экрана
      */
-    public void onCreate(Context context) {
+    public void onInitiallyCreated(Context context) {
         Weather weather = interactor.getWeather();
         String titleWithoutCity = context.getString(R.string.weather_in_mask);
         String title = titleWithoutCity.replace(CITY_MASK, weather.getCity());

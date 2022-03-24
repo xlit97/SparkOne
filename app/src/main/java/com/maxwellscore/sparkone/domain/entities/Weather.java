@@ -1,5 +1,8 @@
 package com.maxwellscore.sparkone.domain.entities;
 
+/**
+ * Является Entity(сущностью) доменного слоя. Описывает погоду.
+ */
 public class Weather {
     private String city;
     private String temperature;

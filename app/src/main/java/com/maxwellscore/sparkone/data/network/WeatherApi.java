@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Это симуляция ответа с сервера. На самом деле это был бы не просто JSON, а Observable или Future
+ * так как запрос на сервер должен быть асинхронной задачей(то есть выполняемой в другом потоке)
+ */
 public class WeatherApi {
 
     public JSONObject getWeather(){

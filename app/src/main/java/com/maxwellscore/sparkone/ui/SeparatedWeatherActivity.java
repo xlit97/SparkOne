@@ -11,6 +11,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.maxwellscore.sparkone.R;
 
+/**
+ * Пример кода когда вся логика распределена по слоям. В данном случае это UI слой, отвечающий только
+ * за отображение каких-то данных на экране
+ */
 public class SeparatedWeatherActivity extends AppCompatActivity {
 
     private ViewGroup root;
@@ -39,6 +43,8 @@ public class SeparatedWeatherActivity extends AppCompatActivity {
         });
 
         // Затем вызываем у viewModel колбэк onCreated оповещая viewModel что подготовительные работы завершены
-        viewModel.onCreate(getApplicationContext());
+        if (savedInstanceState == null) {
+            viewModel.onInitiallyCreated(getApplicationContext());
+        }
     }
 }

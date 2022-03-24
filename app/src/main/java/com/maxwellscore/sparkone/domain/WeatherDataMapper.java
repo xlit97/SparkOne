@@ -10,7 +10,9 @@ import com.maxwellscore.sparkone.data.dto.WeatherData;
 import com.maxwellscore.sparkone.domain.entities.Weather;
 import com.maxwellscore.sparkone.domain.entities.WeatherType;
 
-
+/**
+ * Превращает данные слоя данных(Data) в слой доменный.
+ */
 public class WeatherDataMapper {
 
     public Weather dataToDomain(WeatherData data) {

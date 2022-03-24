@@ -10,6 +10,10 @@ import com.maxwellscore.sparkone.data.network.WeatherApi;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Является представителем Data слоя(слоя данных) и ответственнен за связь с удаленным сервером и обработку ответа с сервера
+ * Также он может связываться с базой данных
+ */
 public class WeatherRepository {
 
     private WeatherApi api = new WeatherApi();
