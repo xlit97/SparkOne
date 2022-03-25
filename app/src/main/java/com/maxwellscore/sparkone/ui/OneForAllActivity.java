@@ -27,7 +27,6 @@ public class OneForAllActivity extends AppCompatActivity {
     private TextView temperatureTextView;
     private TextView weatherTextView;
 
-//    private BadWeatherProvider weatherProvider = new BadWeatherProvider();
     private WeatherApi api = new WeatherApi();
 
     @Override
