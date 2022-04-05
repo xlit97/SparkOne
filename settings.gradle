@@ -18,3 +18,4 @@ dependencyResolutionManagement {
 rootProject.name = "SparkOne"
 include ':app'
 include ':kotlinexample'
+include ':ktor-weather-server'
