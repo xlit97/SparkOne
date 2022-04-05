@@ -9,9 +9,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.maxwellscore.sparkone.R;
-import com.maxwellscore.sparkone.domain.entities.Weather;
 import com.maxwellscore.sparkone.domain.WeatherInteractor;
 import com.maxwellscore.sparkone.domain.entities.WeatherType;
+
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * ViewModel - является представителем презентационного слоя.
@@ -42,22 +43,27 @@ public class WeatherViewModel extends ViewModel {
      * которые потом преобразуются в данные ui слоя, которые удобно устанавливать для экрана
      */
     public void onInitiallyCreated(Context context) {
-        Weather weather = interactor.getWeather();
-        String titleWithoutCity = context.getString(R.string.weather_in_mask);
-        String title = titleWithoutCity.replace(CITY_MASK, weather.getCity());
-        Pair<Integer, Integer> weatherAndColor = getWeatherTypeTextAndColor(
-                weather.getWeatherType(),
-                context
-        );
-        int weatherTextResId = weatherAndColor.first;
-        int backgroundColor = weatherAndColor.second;
-        liveData.postValue(new WeatherUiState(
-                title,
-                weather.getTemperature(),
-                weatherTextResId,
-                backgroundColor
+        interactor.getWeather()
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        weather -> {
+                            String titleWithoutCity = context.getString(R.string.weather_in_mask);
+                            String title = titleWithoutCity.replace(CITY_MASK, weather.getCity());
+                            Pair<Integer, Integer> weatherAndColor = getWeatherTypeTextAndColor(
+                                    weather.getWeatherType(),
+                                    context
+                            );
+                            int weatherTextResId = weatherAndColor.first;
+                            int backgroundColor = weatherAndColor.second;
+                            liveData.postValue(new WeatherUiState(
+                                    title,
+                                    weather.getTemperature(),
+                                    weatherTextResId,
+                                    backgroundColor
 
-        ));
+                            ));
+                        }
+                );
     }
 
     private Pair<Integer, Integer> getWeatherTypeTextAndColor(WeatherType type, Context context) {

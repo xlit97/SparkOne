@@ -13,7 +13,7 @@ private val cities = listOf("Якутск", "Москва", "Алматы")
 private val types = listOf("cloudy_weather", "sunny_weather", "rain_is_pouring")
 
 fun main() {
-    embeddedServer(Netty, port = 80) {
+    embeddedServer(Netty) {
         install(ContentNegotiation) {
             json()
         }

@@ -1,6 +1,8 @@
 package com.maxwellscore.sparkone.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -10,6 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.maxwellscore.sparkone.R;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Пример кода когда вся логика распределена по слоям. В данном случае это UI слой, отвечающий только
