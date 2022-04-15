@@ -5,7 +5,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import kotlin.random.Random
 
-class WeatherApi {
+class MockWeatherApi {
     fun getWeather(): JSONObject {
         val json = JSONObject()
         try {

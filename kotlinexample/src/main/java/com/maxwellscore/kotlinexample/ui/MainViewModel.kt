@@ -9,6 +9,7 @@ import com.maxwellscore.kotlinexample.R
 import com.maxwellscore.kotlinexample.domain.WeatherInteractor
 import com.maxwellscore.kotlinexample.domain.entities.Weather
 import com.maxwellscore.kotlinexample.domain.entities.WeatherType
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainViewModel : ViewModel() {
 
@@ -33,18 +34,20 @@ class MainViewModel : ViewModel() {
     }
 
     private fun updateWeather(context: Context) {
-        val weather: Weather = interactor.getWeather()
-        val title =
-            context.getString(R.string.weather_in_mask).replace(CITY_MASK, weather.city)
-        val (weatherTextResId, backgroundColorId) = getWeatherTypeTextAndColorId(weather.weatherType)
-        _liveData.postValue(
-            WeatherUiState(
-                title,
-                weather.temperature,
-                weatherTextResId,
-                ContextCompat.getColor(context, backgroundColorId)
-            )
-        )
+        interactor.getWeather()
+            .map { weather ->
+                val title =
+                    context.getString(R.string.weather_in_mask).replace(CITY_MASK, weather.city)
+                val (weatherTextResId, backgroundColorId) = getWeatherTypeTextAndColorId(weather.weatherType)
+                WeatherUiState(
+                    title,
+                    weather.temperature,
+                    weatherTextResId,
+                    ContextCompat.getColor(context, backgroundColorId)
+                )
+            }
+            .subscribeOn(Schedulers.io())
+            .subscribe(_liveData::postValue)
     }
 
     private fun getWeatherTypeTextAndColorId(type: WeatherType) =

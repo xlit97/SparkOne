@@ -2,11 +2,12 @@ package com.maxwellscore.kotlinexample.data
 
 import com.google.gson.Gson
 import com.maxwellscore.kotlinexample.data.dto.WeatherData
+import io.reactivex.rxjava3.core.Observable
 
 class WeatherRepository {
-    private val api: WeatherApi = WeatherApi()
+    private val apiMock: MockWeatherApi = MockWeatherApi()
+    private val api = RealWeatherApi()
     private val gson = Gson()
 
-    fun getWeather(): WeatherData =
-        gson.fromJson(api.getWeather().toString(), WeatherData::class.java)
+    fun getWeather(): Observable<WeatherData> = api.getWeather()
 }
