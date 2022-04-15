@@ -14,7 +14,7 @@ public class RealWeatherApi {
     private Gson gson = new Gson();
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://127.0.0.1/")
+            .baseUrl("http://10.0.2.2/") // Для эмулятора нужен этот IP
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build();
@@ -24,5 +24,9 @@ public class RealWeatherApi {
     public Observable<WeatherData> getWeatherFromNetwork() {
         //        return Observable.just(gson.fromJson(mockApi.getWeather().toString(), WeatherData.class));
         return service.getWeather();
+    }
+
+    public Observable<String> postLocation(double latitude, double longitude) {
+        return service.postLocation(String.format("%s, %s", latitude, longitude));
     }
 }

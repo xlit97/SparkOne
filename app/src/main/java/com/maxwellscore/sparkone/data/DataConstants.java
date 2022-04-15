@@ -8,6 +8,6 @@ public class DataConstants {
     public static final String KEY_TEMPERATURE_DATA = "temperatureData";
     public static final String KEY_TEMPERATURE = "temperature";
     public static final String KEY_UNIT = "unit";
-    public static final String KEY_WEATHER_TYPE = "weather_type";
+    public static final String KEY_WEATHER_TYPE = "weatherType";
 
 }
