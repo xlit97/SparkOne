@@ -3,6 +3,7 @@ package com.maxwellscore.kotlinexample.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.maxwellscore.kotlinexample.AppComponentProvider
 import com.maxwellscore.kotlinexample.databinding.KotlinexampleActivityAllBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +15,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = KotlinexampleActivityAllBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val component = (applicationContext as AppComponentProvider).component
+        component.inject(this)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         // Сначала создаем подписку на изменение состояния экрана
         viewModel.liveData.observe(this) { state ->
@@ -28,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         // Затем вызываем у viewModel колбэк onCreated оповещая viewModel что подготовительные работы завершены
         // Эта проверка на savedInstanceState здесь нужна чтобы onInitiallyCreated вызвался только при первом старте экрана
         if (savedInstanceState == null) {
-            viewModel.onInitiallyCreated(applicationContext)
+            viewModel.onInitiallyCreated(component, applicationContext)
         }
         binding.allButtonService.setOnClickListener {
             viewModel.onServiceButtonClicked(applicationContext)

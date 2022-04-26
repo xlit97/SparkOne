@@ -10,9 +10,11 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.maxwellscore.kotlinexample.LocationWorker
 import com.maxwellscore.kotlinexample.R
+import com.maxwellscore.kotlinexample.di.AppComponent
 import com.maxwellscore.kotlinexample.domain.WeatherInteractor
 import com.maxwellscore.kotlinexample.domain.entities.WeatherType
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
 class MainViewModel : ViewModel() {
 
@@ -20,7 +22,8 @@ class MainViewModel : ViewModel() {
         private const val CITY_MASK = "{city}"
     }
 
-    private val interactor: WeatherInteractor = WeatherInteractor()
+    @Inject
+    lateinit var interactor: WeatherInteractor
     private val _liveData: MutableLiveData<WeatherUiState> = MutableLiveData<WeatherUiState>()
     val liveData: LiveData<WeatherUiState> = _liveData
 
@@ -28,7 +31,8 @@ class MainViewModel : ViewModel() {
      * Метод вызывается когда activity завершит подготовительные работы. Затем метод идет в интерактор за данными,
      * которые потом преобразуются в данные ui слоя, которые удобно устанавливать для экрана
      */
-    fun onInitiallyCreated(context: Context) {
+    fun onInitiallyCreated(component: AppComponent, context: Context) {
+        component.inject(this)
         updateWeather(context)
     }
 

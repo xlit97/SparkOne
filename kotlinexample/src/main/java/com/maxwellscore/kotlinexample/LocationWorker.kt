@@ -22,7 +22,7 @@ class LocationWorker(
 
     private val notificationManager
         get() = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    private val interactor = WeatherInteractor()
+    private val interactor = WeatherInteractor(appContext)
 
     override fun doWork(): Result {
         // Mark the Worker as important
