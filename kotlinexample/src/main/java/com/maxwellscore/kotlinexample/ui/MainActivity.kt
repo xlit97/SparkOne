@@ -30,5 +30,8 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             viewModel.onInitiallyCreated(applicationContext)
         }
+        binding.allButtonService.setOnClickListener {
+            viewModel.onServiceButtonClicked(applicationContext)
+        }
     }
 }

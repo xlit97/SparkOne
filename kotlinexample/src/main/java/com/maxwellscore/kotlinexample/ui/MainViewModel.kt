@@ -5,9 +5,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import com.maxwellscore.kotlinexample.LocationWorker
 import com.maxwellscore.kotlinexample.R
 import com.maxwellscore.kotlinexample.domain.WeatherInteractor
-import com.maxwellscore.kotlinexample.domain.entities.Weather
 import com.maxwellscore.kotlinexample.domain.entities.WeatherType
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -27,6 +30,16 @@ class MainViewModel : ViewModel() {
      */
     fun onInitiallyCreated(context: Context) {
         updateWeather(context)
+    }
+
+    fun onServiceButtonClicked(context: Context) {
+        WorkManager.getInstance(context)
+            .beginUniqueWork(
+                "SuperDuperLocationSender",
+                ExistingWorkPolicy.REPLACE,
+                OneTimeWorkRequest.from(LocationWorker::class.java)
+            )
+            .enqueue()
     }
 
     fun onScreenClicked(context: Context) {

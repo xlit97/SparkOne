@@ -9,4 +9,6 @@ class WeatherInteractor {
     private val mapper: WeatherDataMapper = WeatherDataMapper()
 
     fun getWeather(): Observable<Weather> = repository.getWeather().map { mapper.dataToDomain(it) }
+
+    fun postLocation(latitude: Double, longitude: Double) = repository.postLocation(latitude, longitude)
 }
