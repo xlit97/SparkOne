@@ -10,18 +10,18 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.work.*
 import com.maxwellscore.kotlinexample.domain.WeatherInteractor
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlin.random.Random
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 
 class LocationWorker(
     appContext: Context,
-    workerParams: WorkerParameters
+    workerParams: WorkerParameters,
+    private val myLocationManager: MyLocationManager
 ) : Worker(appContext, workerParams) {
 
     private val notificationManager
         get() = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
     private val interactor = WeatherInteractor()
 
     override fun doWork(): Result {
@@ -33,15 +33,12 @@ class LocationWorker(
     }
 
     private fun updateLocation() {
-        runBlocking {
-            repeat(1000) {
-                if (!isStopped) {
-                    interactor.postLocation(Random.nextDouble(), Random.nextDouble())
-                        .subscribe()
-                    delay(1000)
-                }
+        myLocationManager.locations
+            .blockingSubscribe { location ->
+                interactor.postLocation(location.latitude, location.longitude)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
             }
-        }
     }
 
     @NonNull
