@@ -1,12 +1,12 @@
 package com.maxwellscore.kotlinexample.domain
 
-import android.content.Context
 import com.maxwellscore.kotlinexample.data.WeatherRepository
 import com.maxwellscore.kotlinexample.domain.entities.Weather
 import io.reactivex.rxjava3.core.Observable
+import javax.inject.Inject
 
-// TODO Контекст был добавлен в качестве примера по Dagger 2. В следующей итерации надо удалить его
-class WeatherInteractor constructor(context: Context) {
+class WeatherInteractor @Inject constructor() {
+
     private val repository: WeatherRepository = WeatherRepository()
     private val mapper: WeatherDataMapper = WeatherDataMapper()
 

@@ -1,15 +1,20 @@
 package com.maxwellscore.kotlinexample.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.maxwellscore.kotlinexample.AppComponentProvider
 import com.maxwellscore.kotlinexample.databinding.KotlinexampleActivityAllBinding
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: KotlinexampleActivityAllBinding
-    private lateinit var viewModel: MainViewModel
+    @Inject
+    lateinit var viewModelFactory: MainViewModel.Factory
+    private val viewModel: MainViewModel by viewModels {
+        viewModelFactory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val component = (applicationContext as AppComponentProvider).component
         component.inject(this)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         // Сначала создаем подписку на изменение состояния экрана
         viewModel.liveData.observe(this) { state ->
             binding.allMaterialtoolbarTopbar.title = state.title

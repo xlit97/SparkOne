@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -16,14 +17,14 @@ import com.maxwellscore.kotlinexample.domain.entities.WeatherType
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val interactor: WeatherInteractor
+) : ViewModel() {
 
     companion object {
         private const val CITY_MASK = "{city}"
     }
 
-    @Inject
-    lateinit var interactor: WeatherInteractor
     private val _liveData: MutableLiveData<WeatherUiState> = MutableLiveData<WeatherUiState>()
     val liveData: LiveData<WeatherUiState> = _liveData
 
@@ -79,4 +80,10 @@ class MainViewModel : ViewModel() {
                 R.string.rain to R.color.dark_light_blue
             }
         }
+
+    class Factory @Inject constructor(private val viewModel: MainViewModel) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return viewModel as T
+        }
+    }
 }
